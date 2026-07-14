@@ -108,8 +108,8 @@ Amazon Product Sales Dataset
 
 ## Author
 
-Anurag Tiwari
+Arpit Patel 
 
 B.Tech CSE Student
 
-Data Science & AI Trainee
+Data Science & AI Enthusiast
