@@ -60,9 +60,17 @@ filtered_df = apply_filters(df, filters)
 # ----------------------------------------------------------------------------
 # HERO HEADER
 # ----------------------------------------------------------------------------
-st.markdown(f'<p class="hero-title">📊 {config.APP_TITLE}</p>', unsafe_allow_html=True)
 st.markdown(
-    '<p class="hero-subtitle">Explore product performance, pricing trends, and customer ratings — all in one place.</p>',
+    f'<p class="hero-title">📊 {config.APP_TITLE}</p>',
+    unsafe_allow_html=True,
+)
+st.markdown(
+    (
+        '<p class="hero-subtitle">'
+        "Explore product performance, pricing trends, "
+        "and customer ratings — all in one place."
+        "</p>"
+    ),
     unsafe_allow_html=True,
 )
 

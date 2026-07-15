@@ -98,8 +98,23 @@ def rating_box_by_category(df: pd.DataFrame, n: int = 8) -> Optional[go.Figure]:
 def avg_price_trend_line(df: pd.DataFrame, n: int = 10) -> Optional[go.Figure]:
     if "category" not in df.columns or "discounted_price" not in df.columns:
         return None
-    avg_price = df.groupby("category")["discounted_price"].mean().sort_values(ascending=False).head(n).reset_index()
-    fig = px.line(avg_price, x="category", y="discounted_price", title="Average Price Across Top Categories", markers=True)
+
+    avg_price = (
+        df.groupby("category")["discounted_price"]
+        .mean()
+        .sort_values(ascending=False)
+        .head(n)
+        .reset_index()
+    )
+
+    fig = px.line(
+        avg_price,
+        x="category",
+        y="discounted_price",
+        title="Average Price Across Top Categories",
+        markers=True,
+    )
+
     fig.update_layout(xaxis_tickangle=-30)
     return fig
 
@@ -146,7 +161,17 @@ def top_rated_categories_bar(df: pd.DataFrame, n: int = 10) -> Optional[go.Figur
 
 def price_correlation_heatmap(df: pd.DataFrame) -> Optional[go.Figure]:
     """Correlation heatmap across all numeric columns — a common 'industry-level' addition."""
-    numeric_cols = [c for c in ["discounted_price", "actual_price", "discount_percentage", "rating", "rating_count"] if c in df.columns]
+    numeric_cols = [
+        c
+        for c in [
+            "discounted_price",
+            "actual_price",
+            "discount_percentage",
+            "rating",
+            "rating_count",
+        ]
+        if c in df.columns
+    ]
     if len(numeric_cols) < 2:
         return None
     corr = df[numeric_cols].corr()
