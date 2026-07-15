@@ -43,9 +43,12 @@ except DataLoadError as exc:
     logger.error("Data load failed: %s", exc)
     st.error(f"⚠️ {exc}")
     st.stop()
-except Exception as exc:  # noqa: BLE001 — top-level safety net for the UI
+except Exception:  # noqa: BLE001
     logger.exception("Unexpected error while loading data")
-    st.error("⚠️ An unexpected error occurred while loading the dataset. Check logs/app.log for details.")
+    st.error(
+        "⚠️ An unexpected error occurred while loading the dataset. "
+        "Check logs/app.log for details."
+    )
     st.stop()
 
 # ----------------------------------------------------------------------------
@@ -90,7 +93,14 @@ if filters.page == "🏠 Home":
 elif filters.page == "📈 Analytics":
     st.markdown('<p class="section-header">📊 Deep Dive Analytics</p>', unsafe_allow_html=True)
 
-    tab1, tab2, tab3, tab4 = st.tabs(["💰 Pricing", "⭐ Ratings", "🗂️ Categories", "🔗 Correlations"])
+    tab1, tab2, tab3, tab4 = st.tabs(
+        [
+            "💰 Pricing",
+            "⭐ Ratings",
+            "🗂️ Categories",
+            "🔗 Correlations",
+        ]
+    )
 
     with tab1:
         c1, c2 = st.columns(2)
@@ -120,7 +130,10 @@ elif filters.page == "📈 Analytics":
             charts.render_chart(charts.top_rated_categories_bar(filtered_df), st)
 
     with tab4:
-        st.caption("Shows how numeric fields move together — e.g. does a higher discount correlate with a lower rating?")
+        st.caption(
+            "Shows how numeric fields move together — "
+            "e.g. does a higher discount correlate with a lower rating?"
+        )
         charts.render_chart(charts.price_correlation_heatmap(filtered_df), st)
 
 # ============================================================================
@@ -133,25 +146,56 @@ elif filters.page == "📋 Product Explorer":
     with search_col:
         search_term = st.text_input("🔎 Search Product", placeholder="Type a product name...")
     with sort_col:
-        sort_options = [c for c in ["rating", "discounted_price", "actual_price", "discount_percentage", "rating_count"] if c in filtered_df.columns]
+        sort_options = [
+            c
+            for c in [
+                "rating",
+                "discounted_price",
+                "actual_price",
+                "discount_percentage",
+                "rating_count",
+            ]
+            if c in filtered_df.columns
+        ]
         sort_by = st.selectbox("Sort by", sort_options if sort_options else ["None"])
 
     explorer_df = filtered_df.copy()
     if search_term and "product_name" in explorer_df.columns:
-        explorer_df = explorer_df[explorer_df["product_name"].str.contains(search_term, case=False, na=False)]
+        explorer_df = explorer_df[
+            explorer_df["product_name"].str.contains(
+                search_term,
+                case=False,
+                na=False,
+            )
+        ]
     if sort_by in explorer_df.columns:
         explorer_df = explorer_df.sort_values(by=sort_by, ascending=False)
 
-    display_cols = [c for c in ["product_name", "category", "actual_price", "discounted_price",
-                                 "discount_percentage", "rating", "rating_count"] if c in explorer_df.columns]
+    display_cols = [
+        c
+        for c in [
+            "product_name",
+            "category",
+            "actual_price",
+            "discounted_price",
+            "discount_percentage",
+            "rating",
+            "rating_count",
+        ]
+        if c in explorer_df.columns
+    ]
 
     st.markdown(f"**{len(explorer_df):,} products found**")
     st.dataframe(explorer_df[display_cols], use_container_width=True, height=500)
 
     st.markdown('<p class="section-header">📥 Export Data</p>', unsafe_allow_html=True)
     csv_data = explorer_df[display_cols].to_csv(index=False).encode("utf-8")
-    st.download_button("⬇️ Download Filtered Data as CSV", data=csv_data,
-                        file_name="amazon_filtered_data.csv", mime="text/csv")
+    st.download_button(
+        "⬇️ Download Filtered Data as CSV",
+        data=csv_data,
+        file_name="amazon_filtered_data.csv",
+        mime="text/csv",
+    )
 
 # ----------------------------------------------------------------------------
 # FOOTER
