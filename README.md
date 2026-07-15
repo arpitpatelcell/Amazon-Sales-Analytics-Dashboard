@@ -1,9 +1,12 @@
 # 📊 Amazon Sales Analytics Dashboard
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.38-red?logo=streamlit)
-![License](https://img.shields.io/badge/License-MIT-green)
-![CI](https://github.com/arpitpatelcell/Amazon-Sales-Analytics-Dashboard/actions/workflows/ci.yml/badge.svg)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.38-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+
+[![License](https://img.shields.io/badge/License-MIT-success)](LICENSE)
+
+[![CI](https://github.com/arpitpatelcell/Amazon-Sales-Analytics-Dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/arpitpatelcell/Amazon-Sales-Analytics-Dashboard/actions/workflows/ci.yml)
 
 ## Project Overview
 
@@ -134,4 +137,5 @@ Amazon Product Sales Dataset (place your `amazon.csv` inside `dataset/`).
 
 ## Author
 **Arpit Patel**
+
 B.Tech CSE Student · Data Science & AI Enthusiast
